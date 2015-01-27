@@ -22,5 +22,8 @@
     "karma-jasmine": "^0.3.5",
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-webpack": "^1.5.0"
+  },
+  "dependencies": {
+    "reqwest": "^1.1.5"
   }
 }

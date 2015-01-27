@@ -1,7 +1,7 @@
 module.exports = {
 	entry: './index.js',
 	resolve : {
-		modulesDirectories : ['bower_components']
+		modulesDirectories : ['node_modules','bower_components']
 	},
 	output: {
 		path: __dirname+'/dist',
