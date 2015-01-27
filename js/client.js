@@ -7,10 +7,11 @@ define([
 	var OUTBOX = 'http://outbox.yetu.me';
 
 	var connnect = function (params) {
+		params = params || {};
 		params.inboxUrl = params.inboxUrl || INBOX;
 		params.outboxUrl = params.outboxUrl || OUTBOX;
 		return {};
-	}
+	};
 
 	return {
 		connect : connnect

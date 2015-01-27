@@ -1,0 +1,26 @@
+{
+  "name": "notifications-client",
+  "version": "0.0.1",
+  "description": "Notifications client for inbox/outbox",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./node_modules/karma/bin/karma start ./karma.conf.js --single-run",
+    "tdd": "node ./node_modules/karma/bin/karma start ./karma.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@bitbucket.org:yetu/notifications-client.git"
+  },
+  "author": "yetu",
+  "license": "MIT",
+  "devDependencies": {
+    "istanbul": "^0.3.5",
+    "istanbul-instrumenter-loader": "^0.1.2",
+    "jasmine-core": "^2.1.3",
+    "karma": "^0.12.31",
+    "karma-coverage": "^0.2.7",
+    "karma-jasmine": "^0.3.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-webpack": "^1.5.0"
+  }
+}
