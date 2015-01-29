@@ -1,4 +1,8 @@
 'use strict';
-var inbox = require('./js/client');
+define(function(require, module, exports){
+	require('es6-promise/promise').polyfill();
 
-module.exports = inbox;
+	var inbox = require('./js/client');
+	return inbox;
+});
+

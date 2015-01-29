@@ -46,6 +46,19 @@ module.exports = function (config) {
 		port: 9876,
 		colors: true,
 		autoWatch: true,
-		browsers: ['PhantomJS']
+		browsers: ['PhantomJS_custom'],
+
+		// you can define custom flags
+		customLaunchers: {
+			'PhantomJS_custom': {
+				base: 'PhantomJS',
+				options: {
+					windowName: 'my-window',
+					settings: {
+						webSecurityEnabled: false
+					}
+				}
+			}
+		}
 	});
 };

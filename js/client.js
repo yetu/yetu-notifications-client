@@ -1,70 +1,86 @@
 'use strict';
+/* global Promise */
 define([
 	'socket-io',
 	'reqwest'
 ], function (io, reqwest) {
 
-	var INBOX = 'http://inbox.yetu.me';
+	var INBOX = 'http://inbox.yetu.me/publish';
 	var OUTBOX = 'http://outbox.yetu.me';
+	var connectionParams = {};
 
-	var connnect = function (token, params) {
+	var init = function (token, params) {
 		params = params || {};
-		params.inboxUrl = params.inboxUrl || INBOX;
-		params.outboxUrl = params.outboxUrl || OUTBOX;
+		connectionParams.inboxUrl = params.inboxUrl || INBOX;
+		connectionParams.outboxUrl = params.outboxUrl || OUTBOX;
 
 		return {
-			subscribe: subscribeToOutbox(token, params.outboxUrl),
-			send: sendToInbox(params.inboxUrl)
+			subscribe: subscribe(token),
+			send: send(token)
 		};
 	};
 
-	var subscribeToOutbox = function (token, url)  {
-		var socket = io(url + '/?token=' + token);
+	function send(token) {
+		return function(payload){
+			payload.timeToLive = payload.timeToLive || 10000;
+			// todo remove it after appId is added to JWT on Oauth2 server
+			payload.senderId = 'yetu_notifications_client_v1';
+			payload.timestamp = Date.now();
 
-		var onDisconnect = function(handler){
-			socket.on('disconnect', handler);
-		};
-
-		var onError = function (handler) {
-			socket.on('error', handler);
-		};
-
-		return function (event, onData) {
-			socket.emit('join', {topic: event});
-			socket.on('joined', function () {
-				socket.on('data', onData);
-			});
-			return {
-				onDisconnect : onDisconnect,
-				onError : onError
+			var dataTosend = {
+				token: token,
+				payload: payload
 			};
-		};
-	};
 
-
-	//var connect = nt.connect('1');
-	//var handlers  =  connect.subscribe('video');
-	//handlers.onError(function (e) {
-	//
-	//});
-	//
-	//handlers.onDisconnect(function(){
-	//
-	//});
-
-
-
-	var sendToInbox = function (inboxUrl) {
-		return function (token, feature, payload) {
-			return reqwest({
-				url: inboxUrl,
-				type: 'post',
-				data: {token: token, feature: feature, payload: payload}
+			return new Promise(function(resolve, reject){
+				reqwest({
+					url: connectionParams.inboxUrl,
+					contentType: 'application/json',
+					method: 'POST',
+					success : resolve,
+					error: reject,
+					data: JSON.stringify(dataTosend)
+				});
 			});
 		};
-	};
+	}
+
+	function subscribe(token){
+		return function (payload, onData, onError) {
+			var socket = io.connect(connectionParams.outboxUrl + '/?token=' + token);
+			return new Promise(function(resolve, reject){
+				socket.on('connect', function () {
+
+					socket.emit('join', {topic: payload.event});
+
+					socket.on('joined', function(topic){
+
+						resolve(function onDataPutter(handler){
+							socket.on('data', handler);
+						});
+					});
+
+					if (onData){
+						socket.on('data', onData);
+					}
+
+					if (onError){
+						socket.on('error', onError);
+					}
+
+					socket.on('error', reject);
+				});
+
+				// potentially a buggy place
+				// need to check the socket-io behavior
+				socket.on('disconnect', reject);
+			});
+
+
+		};
+	}
 
 	return {
-		connect: connnect
+		init: init
 	};
 });
