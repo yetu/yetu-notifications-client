@@ -18,5 +18,11 @@
 	"maxlen": 100,
 	"esnext": true,
 	"funcscope": true,
-	"globalstrict": true
+	"globalstrict": true,
+	"node" : true,
+	"mocha" : true,
+	"globals" : {
+		"define" : false,
+		"expect" : false
+	}
 }

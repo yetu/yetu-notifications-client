@@ -1,8 +1,8 @@
+'use strict';
 define([
 	'socket-io',
 	'reqwest'
 ], function (io, reqwest) {
-	'use strict';
 
 	var INBOX = 'http://inbox.yetu.me';
 	var OUTBOX = 'http://outbox.yetu.me';
@@ -26,31 +26,31 @@ define([
 		};
 
 		var onError = function (handler) {
-			socket.on('error', handler)
+			socket.on('error', handler);
 		};
 
 		return function (event, onData) {
-			socket.emit('join', {topic: topic});
+			socket.emit('join', {topic: event});
 			socket.on('joined', function () {
-				socket.on('data', onData)
+				socket.on('data', onData);
 			});
 			return {
 				onDisconnect : onDisconnect,
 				onError : onError
-			}
+			};
 		};
 	};
 
 
-	var connect = nt.connect('1');
-	var handlers  =  connect.subscribe('video');
-	handlers.onError(function (e) {
-
-	});
-
-	handlers.onDisconnect(function(){
-
-	});
+	//var connect = nt.connect('1');
+	//var handlers  =  connect.subscribe('video');
+	//handlers.onError(function (e) {
+	//
+	//});
+	//
+	//handlers.onDisconnect(function(){
+	//
+	//});
 
 
 
@@ -60,8 +60,8 @@ define([
 				url: inboxUrl,
 				type: 'post',
 				data: {token: token, feature: feature, payload: payload}
-			})
-		}
+			});
+		};
 	};
 
 	return {
