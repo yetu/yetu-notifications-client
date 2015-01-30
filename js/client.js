@@ -23,9 +23,6 @@ define([
 	function send(token) {
 		return function(payload){
 			payload.timeToLive = payload.timeToLive || 10000;
-			// todo remove it after appId is added to JWT on Oauth2 server
-			payload.senderId = 'yetu_notifications_client_v1';
-			payload.timestamp = Date.now();
 
 			var dataTosend = {
 				token: token,
@@ -51,9 +48,9 @@ define([
 			return new Promise(function(resolve, reject){
 				socket.on('connect', function () {
 
-					socket.emit('join', {topic: payload.event});
+					socket.emit('join', {event: payload.event});
 
-					socket.on('joined', function(topic){
+					socket.on('joined', function(event){
 
 						resolve(function onDataPutter(handler){
 							socket.on('data', handler);

@@ -6,20 +6,23 @@ define('socket-io', [], function () {
 
 var client = require('../index');
 
-var TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJzY29wZSI6ImJhciIsImlhdC' +
-	'I6MTQyMjQ2MDAyMCwiZXhwIjoxNzMzNTAwMDIwLCJhdWQiOiJ0ZXN0IiwiaXNzIjoiaHR0cHM6' +
-	'Ly9hdXRoLnlldHVkZXYuY29tIiwic3ViIjoic3ViamVjdC53aXRoLmRvdHMifQ.NNMlDrVNV3i' +
-	'LJCzuIA9dJcArZE69evas-z1H5mgwHGhOCoZmItXkzrZm_VbCY6EqaMYseAyF6agQddYNvaUZE' +
-	'Ec1rq9vgN3XpeCiT6oVktjY6D-yu70SfeG1VSTpicyQX-VmzKKxj2Qn2DHJ_qF-Ck7mCY5Ki_q' +
-	'ngMWYkxiV2Hq3Mfycz9zbBOWhg-aGPhn129cNAX_J0sswG2BGriLbxfnrvQ6PBMvlfTsXrqeLQ' +
-	'P2dIaw0vXciK1lx8JvCkHQGurCV719PXDD1CatdFdBMlaVN7o-qUjkpRI0RHwAv0ppQOlO14et' +
-	'75DvyDwbMEEVvZvno0UnqNAb1uEQbhlqnQgny3jin8i3q--CQeiQXQEtLa2lIlvQYYSQVNOGdd' +
-	'Ri5KRMMLD9_DkFacQw-yV3srnSfHZGC_hjKtcT5taDP-BBlQcQWVdetoQOYwYWJTLgOZDfNBZj' +
-	'eTKcwiMWSqJSTMFhMrt9E9V4uWTRhg1sMtGqS-ZqLqmfPE3xLujbpSRAD-4Q3NKOcLAkloitps' +
-	'mwD1bzfic1AVGfDR6Pl01Hya2Pq2tIquo-Jp98vBURIEVMPAubIvWWhlfNiTK04FhMMEETAKrC' +
-	'6btVValmIWOfS16IdUD1_QUE12tGt2Nw6PCdJp2gwwvfyYbOVfNcwnpUGbrGhZLETc37Lcl8wGIxiORw';
+var TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJzY29wZSI6ImJhci' +
+	'IsInVzZXJVVUlEIjoic29tZS11c2VyLXN0cmFuZ2UtdXVpZCIsImNsaWVudElkIjo' +
+	'iY29tLnlldHUudGVzdC5hcHAuaWQiLCJpYXQiOjE0MjI2MzU5MTIsImV4cCI6MTcz' +
+	'MzY3NTkxMiwiYXVkIjoidGVzdCIsImlzcyI6Imh0dHBzOi8vYXV0aC55ZXR1ZGV2L' +
+	'mNvbSIsInN1YiI6InN1YmplY3Qud2l0aC5kb3RzIn0.kmjhtTnOyYiFu5cMYJ-G1k' +
+	'aPyAspi0z68s1tmS-2q8RU3AXjbpSDlAdVyjJohHnVMX08oS15Rg3mZQTk_tSNft4' +
+	'AnDKbpLw7x2_HXZmHofbi-9wXhiQjUp8dCdlugUOc6H04t_bOE0Pj8kE3Wg5Z2TGr' +
+	'bNoW6jpl_fBloP-ZfxJuppIhLuRyxE6jVOc57x8LOGhNtaWaQmvvK8GnHZa1aIOKt' +
+	'yHt1Qm263ZbNRgDKOCPfZOIvrNU_g7-aCYQik8oaFCiD2aTA7qK-VXvmYchY9tgAq' +
+	'2wGZ2qjmIdYczbuzDdCH-1lrYW9JGeCKA_gJnMrWQRbMrlHZLj0obl0GyHO30M55A' +
+	'4CGLo1VTd-NG2YbxhnEoO8LEOw4XvzSn5ISBY1ht5A7mGAx8mdh79Wz1W0WY7N-ZH' +
+	'RsX5G9uowR1GVaBtxpiykwE5yDHjmF3FzlJZB3WHjBKHi0I6Vqzl_Wt2EAK72gnlw' +
+	'PPag9eUgyub0Jn96z7_i2H7doGSNzMZp8sg-1UQeqeexk55lbk8HocZ-vwonbPtRF' +
+	'w8-Yr34RduS_oLJzthOjijjfboGVgMGEiZe8Lij9sGt8OkS690yehokto_U4Gn6My' +
+	'Q_aSLsqXj7NPMDdAv_7VX_HKsuTJEd7_pcT1sNTqtGxwCLsRIYTeLsyepd2yeWxmhhQrLKz3_cm4';
 
-var testPayload = {event: 'dummyData', data: {a: 5}};
+var testPayload = {event: 'dummy_event', data: {a: 5}};
 
 describe('Notification client', function () {
 
@@ -53,10 +56,11 @@ describe('Notification client', function () {
 
 	it('should subscribe to given event and receive a message', function (done) {
 
-		var ci = client.init(TOKEN);
+		var ci = client.init(TOKEN, {inboxUrl: 'http://localhost:9000/publish', outboxUrl: 'http://localhost:8082'});
+
 
 		ci.subscribe(
-			{event: 'subject.with.dots.yetu_notifications_client_v1'},
+			{event: 'dummy_event'},
 			function () {
 				done();
 			})
