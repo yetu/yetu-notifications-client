@@ -5,8 +5,8 @@ define([
 	'reqwest'
 ], function (io, reqwest) {
 
-	var INBOX = 'http://inbox.yetu.me/publish';
-	var OUTBOX = 'http://outbox.yetu.me';
+	var INBOX = 'http://inbox.yetudev.com/publish';
+	var OUTBOX = 'http://outbox.yetudev.com';
 	var connectionParams = {};
 
 	var init = function (token, params) {

@@ -56,8 +56,14 @@ describe('Notification client', function () {
 
 	it('should subscribe to given event and receive a message', function (done) {
 
-		var ci = client.init(TOKEN, {inboxUrl: 'http://localhost:9000/publish', outboxUrl: 'http://localhost:8082'});
+		var ci = client.init(TOKEN);
 
+		ci.send({
+			event: 'dummy_event',
+			data: {
+				a: 1
+			}
+		});
 
 		ci.subscribe(
 			{event: 'dummy_event'},
@@ -67,6 +73,8 @@ describe('Notification client', function () {
 			.then(function () {
 				ci.send(testPayload);
 			});
+
+
 
 	});
 });
