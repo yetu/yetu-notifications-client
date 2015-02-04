@@ -15,26 +15,25 @@ Both libraries are included in the bower dependencies, but it is **end user's re
 1. Install the library using `bower`
 1. Include `socket.io-client` and `dist/standalone.js` in your page:
 
-```html
-<script src="bower_components/socket.io-client/socket.io.js"></script>
-<script src="bower_components/nofifications-client/dist/standalone.js"></script>
-```
+        
+        <script src="bower_components/socket.io-client/socket.io.js"></script>
+        <script src="bower_components/nofifications-client/dist/standalone.js"></script>
+     
 
 1. Use `_yetu_notifications_client` in your code like that:
 
-    ```javascript
-    var TOKEN = // grab your access_token to use with notifications API
-    var client = _yetu_notifications_client;
 
-    client.init(TOKEN)
-      .send({event: 'my-event', data: { field: 'value'}})
-      .then(function () {
-        // do smth when the message is sent
-      }, function (ajaxResponse) {
-        // do smth when there was an error when sending a message
-      });
+        var TOKEN = // grab your access_token to use with notifications API
+        var client = _yetu_notifications_client;
 
-    ```
+        client.init(TOKEN)
+          .send({event: 'my-event', data: { field: 'value'}})
+          .then(function () {
+           // do smth when the message is sent
+          }, function (ajaxResponse) {
+           // do smth when there was an error when sending a message
+          });
+
 
 ### Using AMD module loader
 
@@ -44,89 +43,84 @@ Both libraries are included in the bower dependencies, but it is **end user's re
 
     1. Shim `socket.io-client` so that it can be required using:
 
-        ```
-        // Inside CJS module
-        var io = require('socket.io-client);
-        ```
+            // Inside CJS module
+            var io = require('socket.io-client);
 
         or
 
-        ```
-        // Inside AMD module
-        define([
-          'socket.io-client'
-        ], function(io){
-
-        });
-        ```
+            // Inside AMD module
+            define([
+              'socket.io-client'
+            ], function(io){
+            });
+    
 
     2. Include library directly in your HTML page:
 
-        ```
-        <script src="bower_components/socket.io-client/socket.io.js"></script>
-        ```
+            <script src="bower_components/socket.io-client/socket.io.js"></script>
 
+    
 1. Include `es6-promise` polyfill (or any other ES6-compatible promise implementation) to make `Promise` available in global scope:
 
     1. Shim `es6-promise` so that it can be required using:
 
-        ```
-        // Inside CJS module
-        var promise = require('es6-promise`);
-        promise.polyfill();
-        ```
+
+            // Inside CJS module
+            var promise = require('es6-promise`);
+            promise.polyfill();
 
         or
 
-        ```
-        // Inside AMD module
-        define([
-          'es6-promise'
-        ], function(promise){
-          promise.polyfill();
-        });
-        ```
+
+            // Inside AMD module
+            define([
+              'es6-promise'
+            ], function(promise){
+              promise.polyfill();
+            });
+    
     1. Include polyfill directly in your HTML page:
 
-       ```
-       <script src="bower_components/es6-promise/promise.js"></script>
-       <script>
-       ES6Promise.polyfill();
-       </script>
-       ```
+    
+            <script src="bower_components/es6-promise/promise.js"></script>
+            <script>
+              ES6Promise.polyfill();
+            </script>
+
 
 1. Require `notifications-client` in your code and use it like that:
 
-     ```javascript
-     // CJS module
-     var TOKEN = // grab your access_token to use with notifications API
-     var client = require('notifications-client');
 
-     client.init(TOKEN)
-       .send({event: 'my-event', data: { field: 'value'}})
-       .then(function () {
-         // do smth when the message is sent
-       }, function (ajaxResponse) {
-         // do smth when there was an error when sending a message
-       });
-     ```
-     or
-     ```javascript
-          // AMD module
-          define([
-          'notifications-client'
-          ], function(client){
-            var TOKEN = // grab your access_token to use with notifications API
+        // CJS module
+        var TOKEN = // grab your access_token to use with notifications API
+        var client = require('notifications-client');
 
-            client.init(TOKEN)
-              .send({event: 'my-event', data: { field: 'value'}})
-              .then(function () {
-                // do smth when the message is sent
-              }, function (ajaxResponse) {
-                // do smth when there was an error when sending a message
-              });
+        client.init(TOKEN)
+          .send({event: 'my-event', data: { field: 'value'}})
+          .then(function () {
+          // do smth when the message is sent
+          }, function (ajaxResponse) {
+          // do smth when there was an error when sending a message
           });
-          ```
+
+    or
+
+
+        // AMD module
+        define([
+        'notifications-client'
+        ], function(client){
+        var TOKEN = // grab your access_token to use with notifications API
+
+        client.init(TOKEN)
+          .send({event: 'my-event', data: { field: 'value'}})
+          .then(function () {
+            // do smth when the message is sent
+          }, function (ajaxResponse) {
+            // do smth when there was an error when sending a message
+          });
+        });
+
 
 ## API
 
@@ -138,11 +132,11 @@ Create a new client connection using the `token` and `params`.
 * `params.outboxUrl` - the HTTP url for message receiving endpoint. Defaults to `http://outbox.yetudev.com`
 * Returns `connection`
 
-```
-  client.init(TOKEN, {
-    inboxUrl: 'http://localhost:9000/publish',
-    outboxUrl: 'http://localhost:8082'
-  }
+```javascript
+client.init(TOKEN, {
+  inboxUrl: 'http://localhost:9000/publish',
+  outboxUrl: 'http://localhost:8082'
+}
 ```
 
 ### connection.send(message)
@@ -154,19 +148,18 @@ Send the message to the inbox endpoint.
 * Returns `Promise[Acknowledgement]`
 
 ```
-  client.init(TOKEN)
-    .send({
-      event: 'test-event',
-      data : {
-        field : 'Any custom data is allowed'
-      }
-    })
-    .then(function(){
-      // if the message is sent, then this callback will be triggered
-    })
-    .catch(function(){
-      // if there was some problems while sending the message, this callback will be triggered
-    });
+client.init(TOKEN)
+  .send({
+  event: 'test-event',
+  data : {
+    field : 'Any custom data is allowed'
+  }})
+  .then(function(){
+    // if the message is sent, then this callback will be triggered
+  })
+  .catch(function(){
+    // if there was some problems while sending the message, this callback will be triggered
+  });
 ```
 
 ### connection.subscribe(subscriptionRequest, onData, onError)
@@ -179,21 +172,20 @@ Subscribe to the outbox endpoint to receive events/notifications.
 * Returns `Promise[SubscriptionAcknowledgement]`
 
 ```
-  client.init(TOKEN)
-    .subscribe({ event: 'test-event' },
-      function(data){
-        // this callback will be triggered on every new 'test-event' message
-      },
-      function(error){
-        // this callback will be triggered on any subscription error
-      }
-    })
-    .then(function(){
-      // this callback will be called if the subscription is established successfully
-    })
-    .catch(function(){
-      // this callback will be called if the subscription failed
-    });
+client.init(TOKEN)
+  .subscribe({ event: 'test-event' },
+    function(data){
+      // this callback will be triggered on every new 'test-event' message
+    },
+    function(error){
+      // this callback will be triggered on any subscription error
+  }})
+  .then(function(){
+    // this callback will be called if the subscription is established successfully
+  })
+  .catch(function(){
+    // this callback will be called if the subscription failed
+  });
 ```
 
 ## How to develop
