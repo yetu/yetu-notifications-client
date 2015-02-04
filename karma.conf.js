@@ -4,9 +4,7 @@ var webpackConfig = require('./webpack.config');
 webpackConfig.cache = true;
 
 // workaround for externals socketio setup
-webpackConfig.resolve.alias = {
-	'socket-io': __dirname + '/test/socket-io-shim.js'
-};
+webpackConfig.resolve.alias['socket.io-client'] = __dirname + '/test/socket-io-shim.js';
 
 webpackConfig.module.postLoaders = [{
 	test: /\.js$/,

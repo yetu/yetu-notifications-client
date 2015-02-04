@@ -1,7 +1,7 @@
 'use strict';
 /* global Promise */
 define([
-	'socket-io',
+	'socket.io-client',
 	'reqwest'
 ], function (io, reqwest) {
 

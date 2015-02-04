@@ -1,6 +1,6 @@
 'use strict';
 // karma-webpack cannot require io from window...
-define('socket-io', [], function () {
+define('socket.io-client', [], function () {
 	return global.io;
 });
 

@@ -1,7 +1,10 @@
 module.exports = {
 	entry: './index.js',
 	resolve : {
-		modulesDirectories : ['node_modules','bower_components']
+		modulesDirectories : ['node_modules','bower_components'],
+		alias: {
+			'es6-promise' : 'es6-promise/promise.js'
+		}
 	},
 	output: {
 		path: __dirname+'/dist',
@@ -14,7 +17,7 @@ module.exports = {
 	externals: {
 		// require('jquery') is external and available
 		//  on the global var jQuery
-		'socket-io': 'io'
+		'socket-io.client': 'io'
 	},
 	module: {
 		loaders: [
