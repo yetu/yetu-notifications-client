@@ -45,36 +45,32 @@ describe('Notification client', function () {
 
 	});
 
+
 	it('should call success handler when valid payload is provided',
 		function (done) {
 			client.init(TOKEN).send(testPayload)
 				.then(function () {
 					done();
+				}, function(e){
+					console.log(e);
 				});
-
 		});
 
 	it('should subscribe to given event and receive a message', function (done) {
-
 		var ci = client.init(TOKEN);
-
-		ci.send({
-			event: 'dummy_event',
-			data: {
-				a: 1
-			}
-		});
-
 		ci.subscribe(
-			{event: 'dummy_event'},
-			function () {
+			{event: 'youtube_event'},
+			function (data) {
+				console.log(data);
 				done();
-			})
-			.then(function () {
-				ci.send(testPayload);
+			}).then(function(){
+				ci.send({
+					event: 'youtube_event',
+					data: {
+						a: 1
+					}
+				});
 			});
-
-
 
 	});
 });

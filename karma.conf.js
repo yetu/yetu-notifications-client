@@ -5,7 +5,7 @@ webpackConfig.cache = true;
 
 // workaround for externals socketio setup
 webpackConfig.resolve.alias = {
-	'socket-io' : __dirname + '/test/socket-io-shim.js'
+	'socket-io': __dirname + '/test/socket-io-shim.js'
 };
 
 webpackConfig.module.postLoaders = [{
@@ -46,19 +46,6 @@ module.exports = function (config) {
 		port: 9876,
 		colors: true,
 		autoWatch: true,
-		browsers: ['PhantomJS_custom'],
-
-		// you can define custom flags
-		customLaunchers: {
-			'PhantomJS_custom': {
-				base: 'PhantomJS',
-				options: {
-					windowName: 'my-window',
-					settings: {
-						webSecurityEnabled: false
-					}
-				}
-			}
-		}
+		browsers: ['Chrome', 'Firefox', 'Safari', 'PhantomJS']
 	});
 };
