@@ -1,6 +1,6 @@
 {
   "name": "notifications-client",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Notifications client for inbox/outbox",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "jshint": "node_modules/.bin/jshint `npm run -s js-files`",
     "fixmyjs": "node_modules/.bin/fixmyjs --legacy `npm run -s js-files`",
     "verify": "npm run fixmyjs; npm run jshint",
-    "precommit": "npm test && npm run verify"
+    "precommit": "webpack && npm test && npm run verify"
   },
   "repository": {
     "type": "git",

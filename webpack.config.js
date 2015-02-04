@@ -5,7 +5,7 @@ module.exports = {
 	},
 	output: {
 		path: __dirname+'/dist',
-		filename: 'bundle.js',
+		filename: 'standalone.js',
 		// export itself to a global var
 		libraryTarget: 'umd',
 		// name of the global var: 'Foo'
