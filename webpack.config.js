@@ -17,7 +17,11 @@ module.exports = {
 	externals: {
 		// require('jquery') is external and available
 		//  on the global var jQuery
-		'socket.io-client': 'io'
+		'socket.io-client': {
+			root: 'io',
+			commonjs: 'socket.io-client',
+			amd : 'socket.io-client'
+		}
 	},
 	module: {
 		loaders: [
