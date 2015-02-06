@@ -21,7 +21,7 @@ define([
 	};
 
 	function send(token) {
-		return function(payload){
+		return function (payload) {
 			payload.timeToLive = payload.timeToLive || 10000;
 
 			var dataTosend = {
@@ -29,12 +29,12 @@ define([
 				payload: payload
 			};
 
-			return new Promise(function(resolve, reject){
+			return new Promise(function (resolve, reject) {
 				reqwest({
 					url: connectionParams.inboxUrl,
 					contentType: 'application/json',
 					method: 'POST',
-					success : resolve,
+					success: resolve,
 					error: reject,
 					data: JSON.stringify(dataTosend)
 				});
@@ -42,26 +42,36 @@ define([
 		};
 	}
 
-	function subscribe(token){
+	function compose(f1, f2) {
+		return function () {
+			return f1(f2.apply(this, [].splice.call(arguments, 0)));
+		};
+	}
+
+	function string2Json(string) {
+		return JSON.parse(string);
+	}
+
+	function subscribe(token) {
 		return function (payload, onData, onError) {
 			var socket = io.connect(connectionParams.outboxUrl + '/?token=' + token);
-			return new Promise(function(resolve, reject){
+			return new Promise(function (resolve, reject) {
 				socket.on('connect', function () {
 
 					socket.emit('join', {event: payload.event});
 
-					socket.on('joined', function(event){
+					socket.on('joined', function (event) {
 
-						resolve(function onDataPutter(handler){
-							socket.on('data', handler);
+						resolve(function onDataPutter(handler) {
+							socket.on('data', compose(handler, string2Json));
 						});
 					});
 
-					if (onData){
-						socket.on('data', onData);
+					if (onData) {
+						socket.on('data', compose(onData, string2Json));
 					}
 
-					if (onError){
+					if (onError) {
 						socket.on('error', onError);
 					}
 

@@ -58,17 +58,16 @@ describe('Notification client', function () {
 
 	it('should subscribe to given event and receive a message', function (done) {
 		var ci = client.init(TOKEN);
+		var testData = {someData: 1, textData : 'somedata'};
 		ci.subscribe(
 			{event: 'youtube_event'},
-			function (data) {
-				console.log(data);
+			function (payload) {
+				expect(payload.data).toEqual(testData);
 				done();
 			}).then(function(){
 				ci.send({
 					event: 'youtube_event',
-					data: {
-						a: 1
-					}
+					data: testData
 				});
 			});
 
