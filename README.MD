@@ -17,7 +17,7 @@ Both libraries are included in the bower dependencies, but it is **end user's re
 
         
         <script src="bower_components/socket.io-client/socket.io.js"></script>
-        <script src="bower_components/nofifications-client/dist/standalone.js"></script>
+        <script src="bower_components/yetu-notifications-client/dist/standalone.js"></script>
      
 
 1. Use `_yetu_notifications_client` in your code like that:
