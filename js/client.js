@@ -48,9 +48,11 @@ define([
 			return new Promise(function(resolve, reject){
 				socket.on('connect', function () {
 
-					socket.emit('join', {event: payload.event});
+					socket.emit('join', payload);
 
 					socket.on('joined', function(event){
+
+					console.log("inside client.js: ", event);
 
 						resolve(function onDataPutter(handler){
 							socket.on('data', handler);
