@@ -1,5 +1,5 @@
 {
-  "name": "notifications-client",
+  "name": "yetu-notifications-client",
   "version": "1.0.0",
   "description": "Notifications client for inbox/outbox",
   "main": "index.js",
