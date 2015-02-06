@@ -20,6 +20,7 @@ module.exports = {
 		'socket.io-client': {
 			root: 'io',
 			commonjs: 'socket.io-client',
+			commonjs2: 'socket.io-client',
 			amd : 'socket.io-client'
 		}
 	},
