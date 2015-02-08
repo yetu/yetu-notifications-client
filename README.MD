@@ -1,5 +1,4 @@
 # Notifications Client
-======================
 [![bitHound Score](https://www.bithound.io/yetu/yetu-notifications-client/badges/score.svg?)](https://www.bithound.io/yetu/yetu-notifications-client)
 
 This is a library to send and consume system-wide notifications from Javascript projects.
