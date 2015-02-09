@@ -47,7 +47,6 @@ define([
 	function subscribe(token){
 		return function (payload, onData, onError) {
 			var socket = io.connect(connectionParams.outboxUrl + '/?token=' + token, {forceNew: true});
-			console.log('CONN');
 			return new Promise(function(resolve, reject){
 				socket.on('connect', function () {
 					socket.emit('join', payload);

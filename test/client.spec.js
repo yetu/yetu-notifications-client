@@ -27,7 +27,7 @@ describe('Notification client', function () {
 		client.init(TOKEN).send(testPayload)
 			.then(function () {
 				done();
-			}, function (ajaxResponse) {
+			}, function () {
 				done();
 			});
 
@@ -39,8 +39,6 @@ describe('Notification client', function () {
 			client.init(TOKEN).send(testPayload)
 				.then(function () {
 					done();
-				}, function (e) {
-					console.log(e);
 				});
 		});
 
@@ -48,10 +46,9 @@ describe('Notification client', function () {
 		var ci = client.init(TOKEN);
 		ci.subscribe(
 			{event: 'youtube_event'},
-			function (data) {
-				console.log(data);
+			function () {
 				done();
-			}).then(function (data) {
+			}).then(function () {
 				ci.send({
 					event: 'youtube_event',
 					data: {
@@ -59,7 +56,7 @@ describe('Notification client', function () {
 					}
 				});
 			}).catch(function(e){
-				console.log('error', e);
+				console.error('error', e);
 			});
 
 	});
@@ -68,11 +65,10 @@ describe('Notification client', function () {
 		var ci = client.init(TOKEN);
 		ci.subscribe(
 			{event: 'some_event', clientId: newClientId},
-			function (data) {
-				console.log(data);
+			function () {
 				done();
 			})
-			.then(function (data) {
+			.then(function () {
 
 				client.init(DIFFERENT_CLIENT_ID_TOKEN).send({
 					event: 'some_event',
@@ -81,8 +77,6 @@ describe('Notification client', function () {
 					}
 				});
 			});
-
 	});
-
 
 });
