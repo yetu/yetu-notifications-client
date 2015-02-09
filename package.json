@@ -10,7 +10,8 @@
     "jshint": "node_modules/.bin/jshint `npm run -s js-files`",
     "fixmyjs": "node_modules/.bin/fixmyjs --legacy `npm run -s js-files`",
     "verify": "npm run fixmyjs; npm run jshint",
-    "precommit": "webpack && npm test && npm run verify"
+    "pack" : "webpack -p",
+    "precommit": "npm test && npm run verify"
   },
   "repository": {
     "type": "git",
