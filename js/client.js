@@ -7,6 +7,8 @@ define([
 
 	var INBOX = 'http://inbox.yetudev.com/publish';
 	var OUTBOX = 'http://outbox.yetudev.com';
+	//var INBOX = 'http://localhost:9000/publish';
+	//var OUTBOX = 'http://localhost:8082';
 	var connectionParams = {};
 
 	var init = function (token, params) {
@@ -54,16 +56,13 @@ define([
 
 	function subscribe(token) {
 		return function (payload, onData, onError) {
-			var socket = io.connect(connectionParams.outboxUrl + '/?token=' + token);
-			return new Promise(function (resolve, reject) {
+			var socket = io.connect(connectionParams.outboxUrl + '/?token=' + token, {forceNew: true});
+			return new Promise(function(resolve, reject){
 				socket.on('connect', function () {
-
-					socket.emit('join', {event: payload.event});
-
-					socket.on('joined', function (event) {
-
-						resolve(function onDataPutter(handler) {
-							socket.on('data', compose(handler, string2Json));
+					socket.emit('join', payload);
+					socket.on('joined', function(event){
+						resolve(function onDataPutter(handler){
+							socket.on('data', handler);
 						});
 					});
 
@@ -74,13 +73,12 @@ define([
 					if (onError) {
 						socket.on('error', onError);
 					}
-
-					socket.on('error', reject);
 				});
-
 				// potentially a buggy place
 				// need to check the socket-io behavior
 				socket.on('disconnect', reject);
+
+				socket.on('error', reject);
 			});
 
 
