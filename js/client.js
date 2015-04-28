@@ -58,7 +58,8 @@ define([
 
 	function subscribe(token) {
 		return function (payload, onData, onError) {
-			var socket = io.connect(connectionParams.outboxUrl + '/?token=' + token, {forceNew: true, secure: true});
+			var socket = io.connect(connectionParams.outboxUrl + '/?token=' +
+			 token, {forceNew: true, secure: true});
 			return new Promise(function(resolve, reject){
 				socket.on('connect', function () {
 					socket.emit('join', payload);

@@ -44,6 +44,13 @@ module.exports = function (config) {
 		port: 9876,
 		colors: true,
 		autoWatch: true,
-		browsers: ['PhantomJS']
+		browsers: ['Chrome'],
+		// you can define custom flags
+    	customLaunchers: {
+      	'PhantomJS_custom': {
+        	base: 'PhantomJS',
+        	flags: ['--ignore-ssl-errors=yes', '--remote-debugger-port=9000']
+      }
+    }
 	});
 };

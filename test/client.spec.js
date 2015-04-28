@@ -54,7 +54,7 @@ describe('Notification client', function () {
 				expect(payload.data).toEqual(testData);
 				done();
 			}).then(function (data) {
-				console.log('Subscribed')
+				console.log('Subscribed');
 				setTimeout(function(){
 					ci.send({
 						event: 'youtube_event',
