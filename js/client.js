@@ -2,13 +2,18 @@
 /* global Promise */
 define([
 	'socket.io-client',
-	'reqwest'
-], function (io, reqwest) {
+	'reqwest',
+	'jwt-decode'
+], function (io, reqwest, jwtdecoder) {
 
+	/** -- Probably use this to run test against local env -- */
+	var OUTBOX = 'http://localhost:8082';
+	var INBOX = 'http://localhost:8080/publish';
+
+	/** -- And this as the devlopment env --
 	var INBOX = 'https://inbox-dev.yetu.me/publish';
-	//var OUTBOX = 'http://outbox.yetudev.com';
-	//var INBOX = 'http://localhost:9000/publish';
-	var OUTBOX = 'https://outbox-dev.yetu.me';
+	var OUTBOX = 'https://outbox-dev.yetu.me'; */
+
 	var JOINED_DELAY = 100;
 	var connectionParams = {};
 
@@ -59,12 +64,22 @@ define([
 	function subscribe(token) {
 		return function (payload, onData, onError) {
 			var socket = io.connect(connectionParams.outboxUrl + '/?token=' +
-			 token, {forceNew: true, secure: true});
+			 token, {secure: true});
 			return new Promise(function(resolve, reject){
 				socket.on('connect', function () {
+
+					var clientId = payload.clientId;
+					if (typeof clientId === 'undefined' || !clientId) {
+
+						var decoded = jwtdecoder(token);
+						if (typeof decoded !== 'undefined' && decoded) {
+							clientId = decoded.clientId;
+						}
+					}
+
 					socket.emit('join', payload);
 					socket.on('joined', function(event){
-						// wait for really connecting to MQ, can be improved 
+						// wait for really connecting to MQ, can be improved
 						// by sending separate message from outbox to data
 						setTimeout(function(){
 							resolve(function onDataPutter(handler){
@@ -74,7 +89,7 @@ define([
 					});
 
 					if (onData) {
-						socket.on('data', compose(onData, string2Json));
+						socket.on(clientId + '.' + payload.event, compose(onData, string2Json));
 					}
 
 					if (onError) {

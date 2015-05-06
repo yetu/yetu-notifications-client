@@ -3,7 +3,7 @@ module.exports = {
 	resolve : {
 		modulesDirectories : ['node_modules','bower_components'],
 		alias: {
-			'es6-promise' : 'es6-promise/promise.js'
+			'es6-promise' : 'es6-promise/dist/es6-promise.js'
 		}
 	},
 	output: {

@@ -47,14 +47,13 @@ describe('Notification client', function () {
 	it('should subscribe to given event and receive a message', function (done) {
 		var ci = client.init(TOKEN);
 		var testData = {someData: 1, textData : 'somedata'};
-		
+
 		ci.subscribe(
 			{event: 'youtube_event'},
 			function (payload) {
 				expect(payload.data).toEqual(testData);
 				done();
 			}).then(function (data) {
-				console.log('Subscribed');
 				setTimeout(function(){
 					ci.send({
 						event: 'youtube_event',
@@ -70,7 +69,6 @@ describe('Notification client', function () {
 	it('should receive a message for different clientId', function (done) {
 		var ci = client.init(TOKEN);
 
-		
 		ci.subscribe(
 			{event: 'some_event', clientId: newClientId},
 			function (data) {
@@ -80,6 +78,8 @@ describe('Notification client', function () {
 			.then(function (data) {
 				client.init(DIFFERENT_CLIENT_ID_TOKEN).send({
 							event: 'some_event',
+							clientId: newClientId,
+							userId: '*',
 							data: {
 								a: 2
 							}
