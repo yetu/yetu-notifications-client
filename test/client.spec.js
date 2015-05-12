@@ -9,7 +9,7 @@ var client = require('../index');
 var TOKEN = require('./tokens').client1;
 var DIFFERENT_CLIENT_ID_TOKEN = require('./tokens').client2;
 
-var testPayload = {event: 'dummy_event', data: {a: 5}};
+var testPayload = {event: 'dummy_event', clientId: 'com.yetu.test.app.id', data: {a: 5}};
 var newClientId = 'com.another.test.app.id';
 
 describe('Notification client', function () {
@@ -46,22 +46,21 @@ describe('Notification client', function () {
 
 	it('should subscribe to given event and receive a message', function (done) {
 		var ci = client.init(TOKEN);
-		var testData = {someData: 1, textData : 'somedata'};
-		
+		var testData = {someData: 1, textData: 'somedata'};
+
 		ci.subscribe(
-			{event: 'youtube_event'},
+			{event: 'youtube_event', clientId: testPayload.clientId},
 			function (payload) {
 				expect(payload.data).toEqual(testData);
 				done();
 			}).then(function (data) {
-				console.log('Subscribed');
-				setTimeout(function(){
+				setTimeout(function () {
 					ci.send({
 						event: 'youtube_event',
 						data: testData
 					});
 				}, 500);
-			}).catch(function(e){
+			}).catch(function (e) {
 				console.log('error', e);
 			});
 
@@ -70,7 +69,6 @@ describe('Notification client', function () {
 	it('should receive a message for different clientId', function (done) {
 		var ci = client.init(TOKEN);
 
-		
 		ci.subscribe(
 			{event: 'some_event', clientId: newClientId},
 			function (data) {
@@ -79,11 +77,11 @@ describe('Notification client', function () {
 			})
 			.then(function (data) {
 				client.init(DIFFERENT_CLIENT_ID_TOKEN).send({
-							event: 'some_event',
-							data: {
-								a: 2
-							}
-						});
+					event: 'some_event',
+					data: {
+						a: 2
+					}
+				});
 			});
 
 	});

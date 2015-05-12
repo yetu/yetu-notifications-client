@@ -50,7 +50,7 @@ module.exports = function (config) {
       	'PhantomJS_custom': {
         	base: 'PhantomJS',
         	flags: ['--ignore-ssl-errors=yes', '--remote-debugger-port=9000']
-      }
+      	}
     }
 	});
 };
